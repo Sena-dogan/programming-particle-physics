@@ -12,7 +12,8 @@
  * @brief Function to print the histogram's name, underflow, and overflow values.
  * @param hist Pointer to the TH1F histogram.
  */
-void printUnderflowOverflow(TH1F* hist) {
+void printUnderflowOverflow(TH1F *hist)
+{
     int nbins = hist->GetNbinsX();
     std::cout << "--- Histogram: " << hist->GetName() << " ---" << std::endl;
     std::cout << "Total Entries: " << hist->GetEntries() << std::endl;
@@ -21,10 +22,12 @@ void printUnderflowOverflow(TH1F* hist) {
     std::cout << std::endl;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     // Argument check
     // Expected: ./draw_from_root <input_file.root>
-    if (argc != 2) {
+    if (argc != 2)
+    {
         std::cerr << "Usage: " << argv[0] << " <input_file.root>" << std::endl;
         return 1;
     }
@@ -32,15 +35,16 @@ int main(int argc, char* argv[]) {
     std::string inputFileName = argv[1];
 
     // Check for .root extension
-    if (inputFileName.size() < 5 || inputFileName.substr(inputFileName.size() - 5) != ".root") {
+    if (inputFileName.size() < 5 || inputFileName.substr(inputFileName.size() - 5) != ".root")
+    {
         std::cerr << "Error: Input file must have a .root extension!" << std::endl;
         return 1;
     }
-    
 
     // Open the ROOT file in "READ" mode.
-    TFile* inputFile = TFile::Open(inputFileName.c_str(), "READ");
-    if (!inputFile || inputFile->IsZombie()) {
+    TFile *inputFile = TFile::Open(inputFileName.c_str(), "READ");
+    if (!inputFile || inputFile->IsZombie())
+    {
         std::cerr << "Error: " << inputFileName << " file could not be opened or is corrupted!" << std::endl;
         return 1;
     }
@@ -49,18 +53,19 @@ int main(int argc, char* argv[]) {
 
     // We retrieve the histograms from the file by their names.
     // We must cast the TObject* pointer returned by Get() to TH1F*.
-    TH1F* h_energy = (TH1F*)inputFile->Get("h_energy");
-    TH1F* h_pt = (TH1F*)inputFile->Get("h_pt");
-    TH1F* h_eta = (TH1F*)inputFile->Get("h_eta");
-    TH1F* h_phi = (TH1F*)inputFile->Get("h_phi");
+    TH1F *h_energy = (TH1F *)inputFile->Get("h_energy");
+    TH1F *h_pt = (TH1F *)inputFile->Get("h_pt");
+    TH1F *h_eta = (TH1F *)inputFile->Get("h_eta");
+    TH1F *h_phi = (TH1F *)inputFile->Get("h_phi");
 
     // Check if the histograms were read successfully.
-    if (!h_energy || !h_pt || !h_eta || !h_phi) {
+    if (!h_energy || !h_pt || !h_eta || !h_phi)
+    {
         std::cerr << "Error: Could not read histograms from the file!" << std::endl;
         inputFile->Close();
         return 1;
     }
-    
+
     // Print underflow/overflow values for each histogram.
     printUnderflowOverflow(h_energy);
     printUnderflowOverflow(h_pt);
@@ -68,7 +73,7 @@ int main(int argc, char* argv[]) {
     printUnderflowOverflow(h_phi);
 
     // We create a canvas for drawing.
-    TCanvas* canvas = new TCanvas("canvas", "Histogram Drawings", 800, 600);
+    TCanvas *canvas = new TCanvas("canvas", "Histogram Drawings", 800, 600);
 
     // --- DRAWING OPERATIONS ---
     std::cout << "Drawing histograms and saving image files..." << std::endl;
@@ -93,7 +98,7 @@ int main(int argc, char* argv[]) {
 
     // 5. Rebinned Style
     // To avoid modifying the original histogram, we create a clone.
-    TH1F* h_energy_rebinned = (TH1F*)h_energy->Clone("h_energy_rebinned");
+    TH1F *h_energy_rebinned = (TH1F *)h_energy->Clone("h_energy_rebinned");
     h_energy_rebinned->Rebin(4); // Combine 4 bins into one new bin
     h_energy_rebinned->SetTitle("Energy Distribution (4x Rebin)");
     h_energy_rebinned->Draw();
@@ -110,6 +115,12 @@ int main(int argc, char* argv[]) {
     inputFile->Close();
     delete inputFile;
     delete canvas;
+
+    // delete h_energy_rebinned; // <-- CAUSES BUS ERROR / SEG FAULT!
+
+    //  REASON (Double-Delete):
+    //  'h_energy_rebinned' was already deleted when 'inputFile' was deleted.
+    //  This line tries to delete it a second time, causing a crash.
 
     return 0;
 }
