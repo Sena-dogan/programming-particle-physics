@@ -21,3 +21,13 @@ Run the following commands in your terminal to compile the C++ source files:
 ```sh
 g++ csv_to_root.cpp -o csv_to_root `root-config --cflags --libs`
 g++ draw_from_root.cpp -o draw_from_root `root-config --cflags --libs`
+```
+
+### 2. Execution
+
+After compiling, run the following commands to execute the programs:
+
+```sh
+./csv_to_root data.csv
+./draw_from_root output.root
+```
