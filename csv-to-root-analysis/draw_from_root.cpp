@@ -103,8 +103,6 @@ int main(int argc, char* argv[]) {
     inputFile->Close();
     delete inputFile;
     delete canvas;
-    // Don't forget to delete the cloned histogram
-    delete h_energy_rebinned;
 
     return 0;
 }
