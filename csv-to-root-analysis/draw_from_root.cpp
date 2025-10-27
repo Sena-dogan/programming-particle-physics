@@ -31,6 +31,13 @@ int main(int argc, char* argv[]) {
 
     std::string inputFileName = argv[1];
 
+    // Check for .root extension
+    if (inputFileName.size() < 5 || inputFileName.substr(inputFileName.size() - 5) != ".root") {
+        std::cerr << "Error: Input file must have a .root extension!" << std::endl;
+        return 1;
+    }
+    
+
     // Open the ROOT file in "READ" mode.
     TFile* inputFile = TFile::Open(inputFileName.c_str(), "READ");
     if (!inputFile || inputFile->IsZombie()) {
