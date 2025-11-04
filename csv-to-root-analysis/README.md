@@ -1,5 +1,10 @@
 # FIZ1117 - C++ and ROOT Histogram Assignment
 
+## Related Resources
+
+You can also find more particle physics programming resources at:
+https://github.com/Sena-dogan/programming-particle-physics
+
 This project contains the solution for the FIZ1117 assignment, which involves creating and drawing histograms using C++ and ROOT.
 
 ## Project Purpose
