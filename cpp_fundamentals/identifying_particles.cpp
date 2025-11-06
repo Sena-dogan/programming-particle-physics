@@ -4,6 +4,9 @@ int main()
 {
     int pdgCode = 11; // PDG (Particle Data Group) particle code
 
+    std::cout << " Enter PDG code of the particle: ";
+    std::cin >> pdgCode;
+
     if (pdgCode == 11)
     {
         std ::cout << " Electron detected ! " << std ::endl;
