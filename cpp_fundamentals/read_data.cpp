@@ -8,6 +8,9 @@ int main()
     std::ifstream inputFile("particle_data.txt");
 
     // 2. Always check if the file successfully opened.
+
+    // ifstream (input): Only reads from files that *already exist*.
+    // It will NOT create a file. If the file is missing, it fails to open.
     if (!inputFile.is_open())
     {
         std::cerr << "Error: Cannot open file!" << std::endl;

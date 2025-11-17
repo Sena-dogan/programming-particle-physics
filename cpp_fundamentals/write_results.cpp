@@ -8,6 +8,9 @@ int main()
     std::vector<double> energies = {45.3, 67.8, 89.2, 34.5, 78.9};
 
     // 2. Create an "output file stream" to write to a file.
+
+    // ofstream (output): Creates a new file if it doesn't exist.
+    // If the file *does* exist, it overwrites (erases) its content by default.
     std::ofstream outputFile("analysis_results.txt");
 
     // 3. Check if the file was successfully created.
